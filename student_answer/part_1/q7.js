@@ -2,18 +2,18 @@ const q7 = `
 SELECT
     pokemon.pokedex_number AS N°,
     pokemon.name AS 'Nom du pokemon',
-    pokemon_type.type_id AS 'Type 1',
-    COALESCE(type.name, 'N/A') AS 'Type 2'
+    type.name AS 'Type 1',
+    COALESCE(type2.name, 'N/A') AS 'Type 2'
 FROM
     pokemon
 INNER JOIN
-    pokemon_type ON pokemon.pokemon_id = pokemon_type.pokemon_id and pokemon_type.slot = 1
+    pokemon_type pt1 ON pt1.pokemon_id = pokemon.pokemon_id and pt1.slot = 1
 INNER JOIN
-    type ON pokemon_type.type_id = type.type_id
-INNER JOIN
-    pokemon_type AS pokemon_type2 ON pokemon.pokemon_id = pokemon_type2.pokemon_id and pokemon_type2.slot = 2
-INNER JOIN
-    type AS type2 ON pokemon_type2.type_id = type2.type_id
+    type ON pt1.type_id = type.type_id
+LEFT JOIN
+    pokemon_type pt2 ON pt2.pokemon_id = pokemon.pokemon_id and pt2.slot = 2
+LEFT JOIN
+    type AS type2 ON pt2.type_id = type2.type_id
 ORDER BY
     pokemon.pokedex_number ASC`;
 
